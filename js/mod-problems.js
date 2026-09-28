@@ -303,12 +303,14 @@ gp: [
               <button class="btn primary" id="ps-check">check</button>
               <button class="btn" id="ps-new">new problem</button>
               <button class="btn" id="ps-sol">show solution</button>
+              <button class="btn" id="ps-timed">⚡ timed round</button>
             </div>
             <div class="prob-feedback" id="ps-feedback"></div>
           </div>
           <div class="card">
             <h3>📊 Progress <span class="streak-pill" id="ps-streak"></span></h3>
             <div id="ps-score"></div>
+            <div id="ps-timed-panel" style="display:none"></div>
             <button class="btn small" id="ps-reset" style="margin-top:10px">reset progress</button>
             <div class="hint">streak = consecutive correct answers in the current topic</div>
           </div>
@@ -316,6 +318,7 @@ gp: [
       this.progress = load();
       this.topic = 'probability';
       this.cur = null;
+      this.timed = { active: false, score: 0, correct: 0, wrong: 0, time: 60, timer: null };
       const self = this;
       this.renderTabs();
       this.renderScore();
@@ -323,6 +326,7 @@ gp: [
       Q.bind('ps-check', 'click', () => self.check());
       Q.bind('ps-new', 'click', () => self.newProb());
       Q.bind('ps-sol', 'click', () => self.reveal());
+      Q.bind('ps-timed', 'click', () => self.toggleTimed());
       Q.bind('ps-reset', 'click', () => { self.progress = {}; self.save(); self.renderScore(); });
       Q.bind('ps-ans', 'keydown', e => { if (e.key === 'Enter') self.check(); });
     },
@@ -349,12 +353,48 @@ gp: [
       Q.$('ps-score').innerHTML = rows +
         `<div class="mastery" style="margin-top:8px; border-top:1px solid var(--border); padding-top:8px"><span class="nm" style="color:var(--txt);font-weight:600">TOTAL</span><div class="bar"></div><span class="pct" style="color:var(--txt)">${totalC}/${totalT}</span></div>`;
     },
+    toggleTimed: function(){
+      if (this.timed.active) this.endTimed(); else this.startTimed();
+    },
+    startTimed: function(){
+      if (this.timed.timer) clearInterval(this.timed.timer);
+      this.timed = { active: true, score: 0, correct: 0, wrong: 0, time: 60, timer: null };
+      const self = this;
+      Q.$('ps-timed-panel').style.display = 'block';
+      Q.$('ps-timed').textContent = '⏹ stop';
+      this.timed.timer = setInterval(() => {
+        self.timed.time--;
+        self.renderTimed();
+        if (self.timed.time <= 0) self.endTimed();
+      }, 1000);
+      this.renderTimed();
+      this.newProb();
+    },
+    endTimed: function(){
+      clearInterval(this.timed.timer);
+      this.timed.active = false;
+      Q.$('ps-timed').textContent = '⚡ timed round';
+      const t = this.timed;
+      Q.$('ps-timed-panel').innerHTML =
+        `<div class="readout" style="margin-top:10px;border-color:#B07D00">⏱ round over — score <b>${t.score}</b> (${t.correct} correct, ${t.wrong} wrong, ${t.correct + t.wrong} answered)</div>`;
+    },
+    renderTimed: function(){
+      const t = this.timed;
+      if (!t.active) return;
+      Q.$('ps-timed-panel').innerHTML =
+        `<div class="readout" style="margin-top:10px;border-color:#B07D00"><b style="font-size:15px;color:${t.time <= 10 ? '#C62828' : '#B07D00'}">${t.time}s</b> · score <b>${t.score}</b> · ✓${t.correct} ✗${t.wrong}</div>`;
+    },
     newProb: function(){
-      const bank = BANKS[this.topic];
+      let topic = this.topic;
+      if (this.timed.active){
+        const keys = Object.keys(BANKS);
+        topic = keys[Math.floor(Math.random() * keys.length)];
+      }
+      const bank = BANKS[topic];
       const gen = bank[Math.floor(Math.random() * bank.length)];
       const rnd = Q.rng((Math.random() * 1e9) | 0);
       this.cur = gen(rnd);
-      Q.$('ps-topic-name').innerHTML = `${NAMES[this.topic]} <span class="tag">derive it — the grader checks</span>`;
+      Q.$('ps-topic-name').innerHTML = `${NAMES[topic]} <span class="tag">${this.timed.active ? '⚡ speed round' : 'derive it — the grader checks'}</span>`;
       Q.$('ps-q').innerHTML = this.cur.q;
       Q.$('ps-unit').textContent = this.cur.unit || '';
       Q.$('ps-ans').value = '';
@@ -368,12 +408,22 @@ gp: [
       const input = Q.$('ps-ans').value.trim();
       const fb = Q.$('ps-feedback');
       const g = grade(input, cur.ans, cur.tol);
-      const p = this.progress[this.topic] || { c: 0, t: 0, s: 0, b: 0 };
       if (g === 'invalid'){
         fb.className = 'prob-feedback invalid show';
         fb.innerHTML = `<b>enter a number</b> — try 0.25, 1/3, sqrt(2), pi, 2^3. (got: "${input}")`;
         return;
       }
+      if (this.timed.active){
+        if (g === 'correct'){ this.timed.correct++; this.timed.score++; }
+        else { this.timed.wrong++; this.timed.score--; }
+        const sol = `<div class="sol"><b>derivation:</b> ${cur.sol}</div>`;
+        if (g === 'correct'){ fb.className = 'prob-feedback correct show'; fb.innerHTML = `<b>✓ correct</b> +1 (${this.timed.score} total)${sol}`; }
+        else { fb.className = 'prob-feedback wrong show'; fb.innerHTML = `<b>✗ wrong</b> — answer ${Q.fmt(cur.ans)} (score ${this.timed.score})${sol}`; }
+        this.renderTimed();
+        setTimeout(() => { if (this.timed.active) this.newProb(); }, 800);
+        return;
+      }
+      const p = this.progress[this.topic] || { c: 0, t: 0, s: 0, b: 0 };
       p.t++;
       if (g === 'correct'){ p.c++; p.s++; p.b = Math.max(p.b, p.s); }
       else { p.s = 0; }

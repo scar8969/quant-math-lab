@@ -41,7 +41,8 @@
             </div>
             <canvas id="mc-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>samples</span>
+              <span><span class="swatch" style="background:#1565C0"></span>accepted chain</span>
+                            <span><span class="swatch" style="background:#C62828"></span>rejected proposals</span>
                             <span><span class="swatch" style="background:#008B00"></span>target contours</span>
             </div>
           </div>
@@ -70,7 +71,7 @@
       const n = +Q.$('mc-n').value;
       const rnd = Q.rng(1234);
       let x = 0, y = 0, acc = 0, total = 0;
-      const pts = [], xs = [], ys = [];
+      const pts = [], xs = [], ys = [], rej = [];
       let vx = 0, vy = 0;
       for (let i = 0; i < n; i++){
         let xp, yp, logr;
@@ -107,9 +108,10 @@
         }
         total++;
         if (Math.log(rnd()) < logr){ x = xp; y = yp; acc++; }
+        else { rej.push([xp, yp]); }
         pts.push([x, y]); xs.push(x); ys.push(y);
       }
-      this.pts = pts; this.accRate = acc / total;
+      this.pts = pts; this.rej = rej; this.accRate = acc / total;
       this.draw(); this.out();
     },
     draw: function(){
@@ -132,7 +134,8 @@
       }
       ctx.putImageData(img, 0, 0);
       // samples
-      this.pts.forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.8, '#1565C0', '', 0));
+            (this.rej || []).forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.1, '#C62828', '', 0));
+            this.pts.forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.8, '#1565C0', '', 0));
       // contours of target
       ctx.strokeStyle = 'rgba(0,139,0,0.6)'; ctx.lineWidth = 1.2;
       for (let c = 0.05; c <= 0.45; c += 0.1){
