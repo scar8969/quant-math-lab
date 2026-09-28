@@ -2,7 +2,9 @@
 
 Interactive quant math learning lab — 10 visual modules + auto-graded problem sets. Built from scratch after scraping Seeing Theory, Setosa, Distill, and the MCMC Gallery.
 
-https://github.com/scar8969/quant-math-lab
+**Live demo:** https://scar8969.github.io/quant-math-lab/
+
+![Quant Math Lab](assets/screenshot.png)
 
 ## What's inside
 
