@@ -1,0 +1,14 @@
+# scraped reference HTML (not used by the runtime)
+scraped/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# python cache (if any local server scripts)
+__pycache__/
+*.pyc

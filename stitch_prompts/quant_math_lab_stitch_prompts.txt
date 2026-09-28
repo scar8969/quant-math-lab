@@ -1,0 +1,81 @@
+═══════════════════════════════════════════════════════════════
+ MASTER PROMPT — paste this whole block into Google Stitch
+ (generates ALL pages of the Quant Math Lab site)
+═══════════════════════════════════════════════════════════════
+
+Create a multi-page interactive website called "QUANT MATH LAB" — a visual introduction to quantitative mathematics for self-study, inspired by Seeing Theory, Setosa, Distill and the MCMC Gallery.
+
+DESIGN SYSTEM:
+- Dark theme throughout: background #0d1117, panels #161b22, borders #2a3342
+- Accent red #ff3b3b, secondary cyan #58a6ff, green #3fb950, purple #bc8cff
+- Text light #dbe2ec, dim #8b98a9
+- Monospace font (Cascadia Code / Consolas) for all math and numbers, clean sans-serif for body text
+- Minimal terminal-inspired aesthetic, subtle grid backgrounds on charts
+- All math formulas written in clear notation (E[X], P(B|A), π = πP, Av = λv)
+
+PAGES (11 total, linked via a fixed left sidebar, active page highlighted in red):
+
+1. HOME — hero title "QUANT MATH LAB", tagline "interactive quant math — probability to gaussian processes", a grid of 10 module cards each with an icon and one-line description, footer crediting sources (Seeing Theory, Setosa, Distill, MCMC Gallery).
+
+2. PROBABILITY — dice/coin simulation: roll button, number-of-rolls slider, bar chart of empirical frequencies vs theoretical 1/n line; normal distribution curve with sliders for μ and σ and a shaded CDF region; central limit theorem demo showing sums of dice converging to a bell curve.
+
+3. BAYES & CONDITIONAL — Venn diagram of two events A and B with sliders for P(A), P(B) and overlap; live readouts of P(B|A) vs P(A|B); Bayes' theorem formula; a medical-test example with prevalence, sensitivity and specificity sliders showing the base-rate fallacy.
+
+4. MARKOV CHAINS — editable 2x2 and 3x3 transition matrix (cells editable, rows sum to 1), run/step/pause controls, a convergence plot of the state distribution approaching the stationary distribution π, readout of π solved by power iteration.
+
+5. GROWTH & INTEREST — linear vs exponential growth comparison chart with rate and steps sliders; compound interest calculator with principal, APR, years and compounding-frequency sliders showing discrete vs continuous (e^rt) curves; SIR epidemic model with R₀ and population sliders showing S/I/R curves.
+
+6. EIGENVECTORS — 2D plot with a draggable vector v, editable 2x2 matrix A, red arrow for Av, dashed eigenspace lines labeled with λ₁ and λ₂, live eigenvalues readout, and a Fibonacci-via-matrix-powers mini chart.
+
+7. PCA — scatter plot with draggable points, red/cyan principal component axes through the mean, variance-explained bar chart, 1D projection strip showing the data collapsed onto PC1, correlation readout.
+
+8. MOMENTUM — contour plot of the loss surface f(x,y) = λx² + y², sliders for λ, momentum β and step α, two animated paths (blue = gradient descent, red = momentum), convergence chart, optimal β formula note.
+
+9. MCMC — 2D target distribution (two-mode gaussian mixture) with a sampler selector (random-walk Metropolis, MALA, Hamiltonian MC), step-size and sample-count sliders, sample scatter, marginal histogram vs true density, x-trace plot, live acceptance-rate readout.
+
+10. GAUSSIAN PROCESSES — click on the plot to add observations, RBF kernel with sliders for lengthscale ℓ, signal variance σ_f and noise σ_n; posterior mean curve with shaded ±2σ uncertainty band; prior sample curves; kernel function plot.
+
+11. PROBLEM SETS — auto-graded quiz: a math question, a text input for the answer, a CHECK button, green "correct" / red "wrong" feedback showing the right answer and full derivation, per-topic progress bars, a streak counter, and a "new problem" button that generates fresh random numbers.
+
+RULES:
+- Every page must be fully functional and interactive — no placeholder content, no lorem ipsum.
+- The sidebar must appear on every page and navigate between all 11 pages.
+- Keep the aesthetic consistent across all pages: dark, precise, math-terminal feel.
+
+═══════════════════════════════════════════════════════════════
+ SINGLE-PAGE PROMPTS — if Stitch only does one page at a time,
+ paste one of these per page instead
+═══════════════════════════════════════════════════════════════
+
+[PAGE 1 — HOME]
+Create the home page of "QUANT MATH LAB", a dark-themed interactive quant math learning site. Background #0d1117, red accent #ff3b3b, monospace math font. Hero title "QUANT MATH LAB", tagline "interactive quant math — probability to gaussian processes". A grid of 10 module cards with icons: Probability, Bayes & Conditional, Markov Chains, Growth & Interest, Eigenvectors, PCA, Momentum Opt, MCMC Sampling, Gaussian Processes, Problem Sets. Left sidebar navigation with all pages, active page highlighted red. Footer crediting Seeing Theory, Setosa, Distill, MCMC Gallery.
+
+[PAGE 2 — PROBABILITY]
+Create a dark-themed interactive probability page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). Three interactive panels: (1) dice/coin simulation with a roll button, rolls slider, bar chart of empirical frequencies with a theoretical probability line; (2) normal distribution curve with μ and σ sliders and shaded CDF region; (3) central limit theorem demo showing sums of dice converging to a bell curve. Left sidebar navigation, monospace math readouts.
+
+[PAGE 3 — BAYES & CONDITIONAL]
+Create a dark-themed interactive Bayes page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). A Venn diagram of events A and B with sliders for P(A), P(B) and overlap, live readouts of P(B|A) and P(A|B), the Bayes theorem formula, and a medical-test panel with prevalence/sensitivity/specificity sliders demonstrating the base-rate fallacy. Left sidebar navigation.
+
+[PAGE 4 — MARKOV CHAINS]
+Create a dark-themed interactive Markov chains page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). An editable 2x2 and 3x3 transition matrix with cells you can change, run/step/pause controls, a convergence plot of the state distribution approaching the stationary distribution π, and a readout of π. Left sidebar navigation.
+
+[PAGE 5 — GROWTH & INTEREST]
+Create a dark-themed interactive growth page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). Three panels: linear vs exponential growth comparison chart; compound interest calculator with principal/APR/years/compounding-frequency sliders showing discrete vs continuous e^rt curves; SIR epidemic model with R₀ and population sliders showing S/I/R curves. Left sidebar navigation.
+
+[PAGE 6 — EIGENVECTORS]
+Create a dark-themed interactive eigenvectors page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). A 2D plot with a draggable vector v, editable 2x2 matrix A, red arrow for Av, dashed eigenspace lines labeled λ₁ and λ₂, live eigenvalues readout, and a Fibonacci-via-matrix-powers chart. Left sidebar navigation.
+
+[PAGE 7 — PCA]
+Create a dark-themed interactive PCA page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). A scatter plot with draggable points, red/cyan principal component axes through the mean, a variance-explained bar chart, a 1D projection strip onto PC1, and a correlation readout. Left sidebar navigation.
+
+[PAGE 8 — MOMENTUM]
+Create a dark-themed interactive optimization page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). A contour plot of the loss surface f(x,y) = λx² + y², sliders for λ, momentum β and step α, two animated paths (blue gradient descent, red momentum), a convergence chart, and the optimal β formula. Left sidebar navigation.
+
+[PAGE 9 — MCMC]
+Create a dark-themed interactive MCMC page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). A 2D target distribution (two-mode gaussian mixture), sampler selector (Metropolis, MALA, Hamiltonian MC), step-size and sample-count sliders, sample scatter, marginal histogram vs true density, x-trace plot, and a live acceptance-rate readout. Left sidebar navigation.
+
+[PAGE 10 — GAUSSIAN PROCESSES]
+Create a dark-themed interactive Gaussian processes page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). Click on the plot to add observations, RBF kernel sliders for lengthscale ℓ, signal variance σ_f and noise σ_n, posterior mean curve with shaded ±2σ uncertainty band, prior sample curves, and a kernel function plot. Left sidebar navigation.
+
+[PAGE 11 — PROBLEM SETS]
+Create a dark-themed auto-graded math quiz page for "QUANT MATH LAB" (bg #0d1117, red #ff3b3b accent). A math question, a text input for the answer, a CHECK button, green "correct" / red "wrong" feedback showing the right answer and full derivation, per-topic progress bars, a streak counter, and a "new problem" button that generates fresh random numbers. Left sidebar navigation.

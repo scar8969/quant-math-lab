@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quant Math Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">∑</span>
+    <div>
+      <h1>QUANT MATH LAB</h1>
+      <p>interactive quant math — probability to gaussian processes</p>
+    </div>
+  </div>
+  <div class="sources">
+    <span>sources:</span>
+    <a href="https://seeing-theory.brown.edu/" target="_blank">Seeing Theory</a>
+    <a href="https://setosa.io/ev/" target="_blank">Setosa</a>
+    <a href="https://distill.pub/" target="_blank">Distill</a>
+    <a href="https://chi-feng.github.io/mcmc-demo/" target="_blank">MCMC Gallery</a>
+  </div>
+</header>
+
+<nav class="sidebar" id="nav">
+  <button class="nav-btn active" data-mod="probability"><span class="ic">🎲</span>Probability</button>
+  <button class="nav-btn" data-mod="bayes"><span class="ic">🍀</span>Bayes &amp; Conditional</button>
+  <button class="nav-btn" data-mod="markov"><span class="ic">🔁</span>Markov Chains</button>
+  <button class="nav-btn" data-mod="growth"><span class="ic">📈</span>Growth &amp; Interest</button>
+  <button class="nav-btn" data-mod="eigen"><span class="ic">🧭</span>Eigenvectors</button>
+  <button class="nav-btn" data-mod="pca"><span class="ic">📊</span>PCA</button>
+  <button class="nav-btn" data-mod="momentum"><span class="ic">⚡</span>Momentum Opt</button>
+  <button class="nav-btn" data-mod="mcmc"><span class="ic">🎯</span>MCMC Sampling</button>
+  <button class="nav-btn" data-mod="gp"><span class="ic">🌫️</span>Gaussian Processes</button>
+  <button class="nav-btn" data-mod="problems"><span class="ic">✏️</span>Problem Sets</button>
+</nav>
+
+<main class="content" id="content">
+  <section class="module active" id="mod-probability"></section>
+  <section class="module" id="mod-bayes"></section>
+  <section class="module" id="mod-markov"></section>
+  <section class="module" id="mod-growth"></section>
+  <section class="module" id="mod-eigen"></section>
+  <section class="module" id="mod-pca"></section>
+  <section class="module" id="mod-momentum"></section>
+  <section class="module" id="mod-mcmc"></section>
+  <section class="module" id="mod-gp"></section>
+  <section class="module" id="mod-problems"></section>
+</main>
+
+<footer class="foot">quant math lab · all math runs live in your browser · inspired by seeing-theory.brown.edu, setosa.io/ev, distill.pub, chi-feng.github.io/mcmc-demo</footer>
+
+<script src="js/common.js"></script>
+<script src="js/mod-probability.js"></script>
+<script src="js/mod-bayes.js"></script>
+<script src="js/mod-markov.js"></script>
+<script src="js/mod-growth.js"></script>
+<script src="js/mod-eigen.js"></script>
+<script src="js/mod-pca.js"></script>
+<script src="js/mod-momentum.js"></script>
+<script src="js/mod-mcmc.js"></script>
+<script src="js/mod-gp.js"></script>
+<script src="js/mod-problems.js"></script>
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  var mods = document.querySelectorAll('.module');
+  nav.addEventListener('click', function(e){
+    var btn = e.target.closest('.nav-btn');
+    if (!btn) return;
+    document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    var id = btn.dataset.mod;
+    mods.forEach(function(m){ m.classList.toggle('active', m.id === 'mod-' + id); });
+    if (window.Q && Q.modules && Q.modules[id] && Q.modules[id].onShow) Q.modules[id].onShow();
+  });
+  window.addEventListener('resize', function(){
+    if (window.Q && Q.modules) Object.keys(Q.modules).forEach(function(k){ if (Q.modules[k].onResize) Q.modules[k].onResize(); });
+  });
+  // init all modules on load
+  Object.keys(Q.modules).forEach(function(k){ if (Q.modules[k].init) Q.modules[k].init(); });
+})();
+</script>
+</body>
+</html>
