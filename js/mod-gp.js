@@ -14,9 +14,10 @@
         </div>
         <div class="grid g23">
           <div class="card">
-            <h3>🌫️ GP regression <span class="tag">click to add data · RBF kernel</span></h3>
-            <div class="controls">
-              <div class="ctl"><label>length ℓ</label><input type="range" id="gp-l" min="0.1" max="2" step="0.05" value="0.6"><span class="val" id="gp-l-val">0.60</span></div>
+            <h3>🌫️ GP regression <span class="tag">click to add data</span></h3>
+                        <div class="controls">
+                          <div class="ctl"><label>kernel</label><select id="gp-k"><option value="rbf">RBF</option><option value="m32">Matern 3/2</option><option value="m52">Matern 5/2</option></select></div>
+                          <div class="ctl"><label>length ℓ</label><input type="range" id="gp-l" min="0.1" max="2" step="0.05" value="0.6"><span class="val" id="gp-l-val">0.60</span></div>
               <div class="ctl"><label>σ_f</label><input type="range" id="gp-sf" min="0.1" max="2" step="0.05" value="1"><span class="val" id="gp-sf-val">1.00</span></div>
               <div class="ctl"><label>σ_n (noise)</label><input type="range" id="gp-sn" min="0.01" max="0.3" step="0.01" value="0.05"><span class="val" id="gp-sn-val">0.05</span></div>
               <button class="btn" id="gp-clear">clear</button>
@@ -43,8 +44,10 @@
       this.cv2 = Q.canvas('gp-cv2', 300, 200);
       this.cv3 = Q.canvas('gp-cv3', 300, 90);
       this.cvEl = Q.$('gp-cv');
-      this.data = [];
+            this.data = [];
+            this.ktype = 'rbf';
       const self = this;
+      Q.bind('gp-k', 'change', e => { self.ktype = e.target.value; self.draw(); self.draw2(); self.draw3(); self.out(); });
       Q.bind('gp-l', 'input', e => { Q.$('gp-l-val').textContent = (+e.target.value).toFixed(2); self.draw(); self.draw2(); self.draw3(); });
       Q.bind('gp-sf', 'input', e => { Q.$('gp-sf-val').textContent = (+e.target.value).toFixed(2); self.draw(); self.draw2(); self.draw3(); });
       Q.bind('gp-sn', 'input', e => { Q.$('gp-sn-val').textContent = (+e.target.value).toFixed(2); self.draw(); self.draw2(); self.draw3(); });
@@ -61,8 +64,18 @@
       this.draw(); this.draw2(); this.draw3(); this.out();
     },
     kernel: function(x1, x2, l, sf){
-      return sf * sf * Math.exp(-((x1 - x2) ** 2) / (2 * l * l));
-    },
+          const d = Math.abs(x1 - x2);
+          if (this.ktype === 'm32'){
+            const r = Math.sqrt(3) * d / l;
+            return sf * sf * (1 + r) * Math.exp(-r);
+          }
+          if (this.ktype === 'm52'){
+            const r = Math.sqrt(5) * d / l;
+            return sf * sf * (1 + r + r * r / 3) * Math.exp(-r);
+          }
+          // rbf
+          return sf * sf * Math.exp(-(d * d) / (2 * l * l));
+        },
     posterior: function(){
       const l = +Q.$('gp-l').value, sf = +Q.$('gp-sf').value, sn = +Q.$('gp-sn').value;
       const xs = this.data.map(d => d[0]), ys = this.data.map(d => d[1]);

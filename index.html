@@ -84,6 +84,13 @@
   });
   // init all modules on load
   Object.keys(Q.modules).forEach(function(k){ if (Q.modules[k].init) Q.modules[k].init(); });
+  // keyboard nav: Alt+1..0 = modules
+  window.addEventListener('keydown', function(e){
+    if (!e.altKey || !/^[1-9]|^0$/.test(e.key)) return;
+    var i = e.key === '0' ? 9 : +e.key - 1;
+    var mods = ['probability','bayes','markov','growth','eigen','pca','momentum','mcmc','gp','problems'];
+    if (i < mods.length){ e.preventDefault(); var b = nav.querySelector('[data-mod="' + mods[i] + '"]'); if (b) b.click(); }
+  });
 })();
 </script>
 </body>
