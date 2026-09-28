@@ -25,9 +25,9 @@
             </div>
             <canvas id="mo-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>gradient descent</span>
-              <span><span class="swatch" style="background:#008B00"></span>momentum</span>
-              <span><span class="swatch" style="background:#6A1B9A"></span>Nesterov</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>gradient descent</span>
+              <span><span class="swatch" style="background:#3fb950"></span>momentum</span>
+              <span><span class="swatch" style="background:#bc8cff"></span>Nesterov</span>
             </div>
           </div>
           <div class="card">
@@ -101,15 +101,15 @@
           const x = (px - W / 2) / 110, y = (H / 2 - py) / 110;
           const v = Math.min(1, (lam * x * x + y * y) / 30);
           const i = (py * W + px) * 4;
-          img.data[i] = 245 - v * 20;
-          img.data[i+1] = 246 - v * 15;
-          img.data[i+2] = 247 - v * 12;
+          img.data[i] = 13 + v * 30;
+          img.data[i+1] = 17 + v * 22;
+          img.data[i+2] = 27 + v * 18;
           img.data[i+3] = 255;
         }
       }
       ctx.putImageData(img, 0, 0);
       // contours
-      ctx.strokeStyle = 'rgba(0,0,0,0.13)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,0.13)'; ctx.lineWidth = 1;
       for (let c = 1; c <= 8; c++){
         ctx.beginPath();
         const r = Math.sqrt(c * 3 / lam);
@@ -118,8 +118,8 @@
           a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
         ctx.stroke();
       }
-      Q.line(ctx, X(-2.2), 0, X(2.2), 0, 'rgba(0,0,0,0.15)', 1);
-      Q.line(ctx, 0, Y(-2.2), 0, Y(2.2), 'rgba(0,0,0,0.15)', 1);
+      Q.line(ctx, X(-2.2), 0, X(2.2), 0, 'rgba(255,255,255,0.15)', 1);
+      Q.line(ctx, 0, Y(-2.2), 0, Y(2.2), 'rgba(255,255,255,0.15)', 1);
       // paths
       const drawPath = (hist, col, dots) => {
         if (hist.length < 2) return;
@@ -128,29 +128,29 @@
         ctx.stroke();
         if (dots) hist.forEach((p, i) => { if (i % 5 === 0) Q.circle(ctx, X(p[0]), Y(p[1]), 2.5, col, '', 0); });
       };
-      drawPath(this.gd.hist, '#1565C0', true);
-      drawPath(this.mom.hist, '#008B00', true);
-      if (Q.$('mo-nst').checked) drawPath(this.nst.hist, '#6A1B9A', true);
+      drawPath(this.gd.hist, '#58a6ff', true);
+      drawPath(this.mom.hist, '#3fb950', true);
+      if (Q.$('mo-nst').checked) drawPath(this.nst.hist, '#bc8cff', true);
       // current positions
       if (this.gd.hist.length){
         const gp = this.gd.hist[this.gd.hist.length - 1], mp = this.mom.hist[this.mom.hist.length - 1];
-        Q.circle(ctx, X(gp[0]), Y(gp[1]), 5, '#1565C0', '#fff', 2);
-        Q.circle(ctx, X(mp[0]), Y(mp[1]), 5, '#008B00', '#fff', 2);
+        Q.circle(ctx, X(gp[0]), Y(gp[1]), 5, '#58a6ff', '#fff', 2);
+        Q.circle(ctx, X(mp[0]), Y(mp[1]), 5, '#3fb950', '#fff', 2);
         if (Q.$('mo-nst').checked){
           const np = this.nst.hist[this.nst.hist.length - 1];
-          Q.circle(ctx, X(np[0]), Y(np[1]), 5, '#6A1B9A', '#fff', 2);
+          Q.circle(ctx, X(np[0]), Y(np[1]), 5, '#bc8cff', '#fff', 2);
         }
       }
-      Q.circle(ctx, X(0), Y(0), 4, '#008B00', '#fff', 2);
-      Q.text(ctx, 'λ=' + lam, W - 60, 16, '#717174', 12);
+      Q.circle(ctx, X(0), Y(0), 4, '#3fb950', '#fff', 2);
+      Q.text(ctx, 'λ=' + lam, W - 60, 16, '#8b949e', 12);
       this.drawConv();
     },
     drawConv: function(){
       const ctx = this.cv2;
       const lam = +Q.$('mo-lambda').value;
       Q.clear(ctx, 300, 200);
-      Q.line(ctx, 10, 190, 290, 190, '#D5D6D8', 1);
-      Q.line(ctx, 10, 10, 10, 190, '#D5D6D8', 1);
+      Q.line(ctx, 10, 190, 290, 190, '#30363d', 1);
+      Q.line(ctx, 10, 10, 10, 190, '#30363d', 1);
       const maxSteps = Math.max(this.gd.hist.length, this.mom.hist.length, this.nst.hist.length, 1);
       const plot = (hist, color) => {
         if (hist.length < 2) return;
@@ -167,11 +167,11 @@
         });
         ctx.stroke();
       };
-      plot(this.gd.hist, '#1565C0');
-      plot(this.mom.hist, '#008B00');
-      if (Q.$('mo-nst').checked) plot(this.nst.hist, '#6A1B9A');
-      Q.text(ctx, 'log₁₀(loss)', 5, 12, '#717174', 10);
-      Q.text(ctx, 'iter', 280, 196, '#717174', 10);
+      plot(this.gd.hist, '#58a6ff');
+      plot(this.mom.hist, '#3fb950');
+      if (Q.$('mo-nst').checked) plot(this.nst.hist, '#bc8cff');
+      Q.text(ctx, 'log₁₀(loss)', 5, 12, '#8b949e', 10);
+      Q.text(ctx, 'iter', 280, 196, '#8b949e', 10);
     },
     out: function(){
       const lam = +Q.$('mo-lambda').value, beta = +Q.$('mo-beta').value;

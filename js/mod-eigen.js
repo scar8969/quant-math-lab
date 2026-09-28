@@ -26,10 +26,10 @@
             </div>
             <canvas id="eg-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>v</span>
-              <span><span class="swatch" style="background:#008B00"></span>Av</span>
-              <span><span class="swatch" style="background:#008B00; opacity:.5"></span>eigenspace λ₁</span>
-              <span><span class="swatch" style="background:#6A1B9A; opacity:.5"></span>eigenspace λ₂</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>v</span>
+              <span><span class="swatch" style="background:#3fb950"></span>Av</span>
+              <span><span class="swatch" style="background:#3fb950; opacity:.5"></span>eigenspace λ₁</span>
+              <span><span class="swatch" style="background:#bc8cff; opacity:.5"></span>eigenspace λ₂</span>
             </div>
           </div>
           <div class="card">
@@ -77,20 +77,20 @@
       Q.clear(ctx, W, H);
       const cx = W / 2, cy = H / 2, scale = 130;
       // grid
-      ctx.strokeStyle = 'rgba(0,0,0,0.06)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1;
       for (let i = -4; i <= 4; i++){
-        Q.line(ctx, cx + i * scale, 10, cx + i * scale, H - 10, 'rgba(0,0,0,0.06)', 1);
-        Q.line(ctx, 10, cy + i * scale, W - 10, cy + i * scale, 'rgba(0,0,0,0.06)', 1);
+        Q.line(ctx, cx + i * scale, 10, cx + i * scale, H - 10, 'rgba(255,255,255,0.08)', 1);
+        Q.line(ctx, 10, cy + i * scale, W - 10, cy + i * scale, 'rgba(255,255,255,0.08)', 1);
       }
-      Q.line(ctx, 10, cy, W - 10, cy, '#D5D6D8', 1.2);
-      Q.line(ctx, cx, 10, cx, H - 10, '#D5D6D8', 1.2);
-      Q.text(ctx, 'x', W - 14, cy - 8, '#717174', 10);
-      Q.text(ctx, 'y', cx + 8, 12, '#717174', 10);
+      Q.line(ctx, 10, cy, W - 10, cy, '#30363d', 1.2);
+      Q.line(ctx, cx, 10, cx, H - 10, '#30363d', 1.2);
+      Q.text(ctx, 'x', W - 14, cy - 8, '#8b949e', 10);
+      Q.text(ctx, 'y', cx + 8, 12, '#8b949e', 10);
       const M = this.M();
       const eigs = Q.eig2(M[0][0], M[0][1], M[1][0], M[1][1]);
       // eigenspaces
       eigs.forEach((e, i) => {
-        const col = i === 0 ? 'rgba(0,139,0,0.4)' : 'rgba(106,27,154,0.4)';
+        const col = i === 0 ? 'rgba(63,185,80,0.5)' : 'rgba(188,140,255,0.4)';
         const vx = e.vec[0], vy = e.vec[1];
         const len = 3.2;
         Q.line(ctx, cx - vx * len * scale, cy + vy * len * scale, cx + vx * len * scale, cy - vy * len * scale, col, 2, [6, 5]);
@@ -100,15 +100,15 @@
       const px = cx + this.v[0] * scale, py = cy - this.v[1] * scale;
       const qx = cx + Av[0] * scale, qy = cy - Av[1] * scale;
       // arrow v
-      ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, py); ctx.stroke();
-      Q.circle(ctx, px, py, 5, '#1565C0', '#fff', 2);
+      ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, py); ctx.stroke();
+      Q.circle(ctx, px, py, 5, '#58a6ff', '#fff', 2);
       // arrow Av
-      ctx.strokeStyle = '#008B00'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(qx, qy); ctx.stroke();
-      Q.circle(ctx, qx, qy, 5, '#008B00', '#fff', 2);
-      Q.text(ctx, 'v', px + 8, py - 8, '#1565C0', 13, 'left', 'bold');
-      Q.text(ctx, 'Av', qx + 8, qy - 8, '#00A800', 13, 'left', 'bold');
+      ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(qx, qy); ctx.stroke();
+      Q.circle(ctx, qx, qy, 5, '#3fb950', '#fff', 2);
+      Q.text(ctx, 'v', px + 8, py - 8, '#58a6ff', 13, 'left', 'bold');
+      Q.text(ctx, 'Av', qx + 8, qy - 8, '#56d364', 13, 'left', 'bold');
       // A^k path
-      ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 3]);
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 3]);
       ctx.beginPath();
       let p = this.v.slice();
       for (let k = 0; k < 8; k++){
@@ -140,11 +140,11 @@
       const maxV = pts[pts.length - 1];
       const X = i => 10 + i / k * 280;
       const Y = val => 140 - val / maxV * 115;
-      ctx.strokeStyle = '#B07D00'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = '#d2991d'; ctx.lineWidth = 2; ctx.beginPath();
       pts.forEach((p, i) => { const x = X(i), y = Y(p); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
       ctx.stroke();
-      pts.forEach((p, i) => Q.circle(ctx, X(i), Y(p), 3, '#B07D00', '#fff', 1));
-      Q.text(ctx, 'F_k via Aᵏv, A=[[1,1],[1,0]]', 150, 12, '#B07D00', 11, 'center');
+      pts.forEach((p, i) => Q.circle(ctx, X(i), Y(p), 3, '#d2991d', '#fff', 1));
+      Q.text(ctx, 'F_k via Aᵏv, A=[[1,1],[1,0]]', 150, 12, '#d2991d', 11, 'center');
       Q.$('eg-out2').innerHTML = `F<sub>${k}</sub> = <b class="r">${pts[k]}</b> · φ = ${Q.fmt((1 + Math.sqrt(5)) / 2)} · F<sub>k</sub> ≈ φᵏ/√5 = ${Q.fmt(Math.pow((1 + Math.sqrt(5)) / 2, k) / Math.sqrt(5), 1)}`;
     },
     onResize: function(){}

@@ -84,7 +84,7 @@ window.Q = (function(){
     cv.style.width = w + 'px'; cv.style.height = h + 'px';
     const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     return ctx; };
-  Q.clear = (ctx, w, h, color) => { ctx.fillStyle = color || '#FFFFFF'; ctx.fillRect(0, 0, w, h); };
+  Q.clear = (ctx, w, h, color) => { ctx.fillStyle = color || '#0d1117'; ctx.fillRect(0, 0, w, h); };
   Q.line = function(ctx, x1, y1, x2, y2, color, width, dash){
     ctx.strokeStyle = color; ctx.lineWidth = width || 1.5; ctx.setLineDash(dash || []);
     ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); ctx.setLineDash([]); };
@@ -93,7 +93,7 @@ window.Q = (function(){
     if (fill){ ctx.fillStyle = fill; ctx.fill(); }
     if (stroke){ ctx.strokeStyle = stroke; ctx.lineWidth = lw || 1.5; ctx.stroke(); } };
   Q.text = function(ctx, str, x, y, color, size, align, weight){
-    ctx.fillStyle = color || '#1F2023';
+    ctx.fillStyle = color || '#e6edf3';
     ctx.font = (weight || 'normal') + ' ' + (size || 12) + "px 'JetBrains Mono', monospace";
     ctx.textAlign = align || 'left'; ctx.textBaseline = 'middle'; ctx.fillText(str, x, y); };
   Q.fmt = function(x, d){

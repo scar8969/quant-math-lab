@@ -376,13 +376,13 @@ gp: [
       Q.$('ps-timed').textContent = '⚡ timed round';
       const t = this.timed;
       Q.$('ps-timed-panel').innerHTML =
-        `<div class="readout" style="margin-top:10px;border-color:#B07D00">⏱ round over — score <b>${t.score}</b> (${t.correct} correct, ${t.wrong} wrong, ${t.correct + t.wrong} answered)</div>`;
+        `<div class="readout" style="margin-top:10px;border-color:#d2991d">⏱ round over — score <b>${t.score}</b> (${t.correct} correct, ${t.wrong} wrong, ${t.correct + t.wrong} answered)</div>`;
     },
     renderTimed: function(){
       const t = this.timed;
       if (!t.active) return;
       Q.$('ps-timed-panel').innerHTML =
-        `<div class="readout" style="margin-top:10px;border-color:#B07D00"><b style="font-size:15px;color:${t.time <= 10 ? '#C62828' : '#B07D00'}">${t.time}s</b> · score <b>${t.score}</b> · ✓${t.correct} ✗${t.wrong}</div>`;
+        `<div class="readout" style="margin-top:10px;border-color:#d2991d"><b style="font-size:15px;color:${t.time <= 10 ? '#ff3b3b' : '#d2991d'}">${t.time}s</b> · score <b>${t.score}</b> · ✓${t.correct} ✗${t.wrong}</div>`;
     },
     newProb: function(){
       let topic = this.topic;

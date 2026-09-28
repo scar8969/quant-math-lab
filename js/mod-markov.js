@@ -24,8 +24,8 @@
             </div>
             <div id="mk-matrix"></div>
             <div class="legend" style="margin-top:10px">
-              <span><span class="swatch" style="background:#1565C0"></span>empirical freq</span>
-                            <span><span class="swatch" style="background:#008B00"></span>stationary π</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>empirical freq</span>
+                            <span><span class="swatch" style="background:#3fb950"></span>stationary π</span>
             </div>
           </div>
           <div class="card">
@@ -115,7 +115,7 @@
       // stationary
       const stat = Q.powerIter(this.P, 5000, 1e-14);
       // convergence lines
-      const colors = ['#1565C0', '#008B00', '#6A1B9A', '#B07D00'];
+      const colors = ['#58a6ff', '#3fb950', '#bc8cff', '#d2991d'];
       const h = this.hist;
       for (let j = 0; j < n; j++){
         ctx.strokeStyle = colors[j % 4]; ctx.lineWidth = 1.6; ctx.beginPath();
@@ -126,14 +126,14 @@
         ctx.stroke();
         Q.line(ctx, 5, 190 - stat[j] * 170, 295, 190 - stat[j] * 170, colors[j % 4], 1, [3, 3]);
       }
-      Q.text(ctx, 'π = [' + stat.map(x => Q.fmt(x, 2)).join(', ') + ']', 150, 12, '#008B00', 11, 'center');
-      Q.text(ctx, 't', 292, 196, '#717174', 10);
+      Q.text(ctx, 'π = [' + stat.map(x => Q.fmt(x, 2)).join(', ') + ']', 150, 12, '#3fb950', 11, 'center');
+      Q.text(ctx, 't', 292, 196, '#8b949e', 10);
       // state occupancy + stationary bars
             const bw = 300 / n;
             for (let j = 0; j < n; j++){
-              ctx.fillStyle = Q.hex(21, 101, 192, 0.85);
+              ctx.fillStyle = Q.hex(88, 166, 255, 0.85);
               ctx.fillRect(j * bw, 0, this.pi[j] * (bw - 2), 6);
-              ctx.fillStyle = Q.hex(0, 139, 0, 0.9);
+              ctx.fillStyle = Q.hex(63, 185, 80, 0.9);
               ctx.fillRect(j * bw, 8, stat[j] * (bw - 2), 4);
             }
       const out = `π* = [${stat.map(x => Q.fmt(x, 3)).join(', ')}] · current dist [${this.pi.map(x => Q.fmt(x, 3)).join(', ')}]`;

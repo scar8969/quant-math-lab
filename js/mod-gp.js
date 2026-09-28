@@ -26,9 +26,9 @@
             </div>
             <canvas id="gp-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>posterior mean</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>posterior mean</span>
               <span><span class="swatch" style="background:rgba(21,101,192,.25)"></span>±2σ uncertainty</span>
-              <span><span class="swatch" style="background:#008B00"></span>observations</span>
+              <span><span class="swatch" style="background:#3fb950"></span>observations</span>
             </div>
           </div>
           <div class="card">
@@ -109,24 +109,24 @@
       const X = v => (v + 3) / 6 * W;
       const Y = v => H / 2 - v / 1.5 * (H / 2 - 20);
       // grid
-      ctx.strokeStyle = 'rgba(0,0,0,0.05)'; ctx.lineWidth = 1;
-      for (let i = -3; i <= 3; i++){ Q.line(ctx, X(i), 10, X(i), H - 10, 'rgba(0,0,0,0.05)', 1); }
-      for (let j = -1; j <= 1; j++){ Q.line(ctx, 10, Y(j), W - 10, Y(j), 'rgba(0,0,0,0.05)', 1); }
-      Q.line(ctx, 10, Y(0), W - 10, Y(0), '#D5D6D8', 1);
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+      for (let i = -3; i <= 3; i++){ Q.line(ctx, X(i), 10, X(i), H - 10, 'rgba(255,255,255,0.06)', 1); }
+      for (let j = -1; j <= 1; j++){ Q.line(ctx, 10, Y(j), W - 10, Y(j), 'rgba(255,255,255,0.06)', 1); }
+      Q.line(ctx, 10, Y(0), W - 10, Y(0), '#30363d', 1);
       const p = this.posterior();
       // uncertainty band
-      ctx.fillStyle = 'rgba(21,101,192,0.16)';
+      ctx.fillStyle = 'rgba(88,166,255,0.16)';
       ctx.beginPath();
       p.test.forEach((x, i) => { const xx = X(x), yy = Y(p.means[i] + 2 * Math.sqrt(p.vars[i])); i === 0 ? ctx.moveTo(xx, yy) : ctx.lineTo(xx, yy); });
       for (let i = p.test.length - 1; i >= 0; i--){ const x = p.test[i]; ctx.lineTo(X(x), Y(p.means[i] - 2 * Math.sqrt(p.vars[i]))); }
       ctx.closePath(); ctx.fill();
       // mean
-      ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2.4; ctx.beginPath();
+      ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2.4; ctx.beginPath();
       p.test.forEach((x, i) => { const xx = X(x), yy = Y(p.means[i]); i === 0 ? ctx.moveTo(xx, yy) : ctx.lineTo(xx, yy); });
       ctx.stroke();
       // data
-      this.data.forEach(d => Q.circle(ctx, X(d[0]), Y(d[1]), 5, '#008B00', '#fff', 2));
-      Q.text(ctx, 'n = ' + p.n, W - 50, 16, '#717174', 12);
+      this.data.forEach(d => Q.circle(ctx, X(d[0]), Y(d[1]), 5, '#3fb950', '#fff', 2));
+      Q.text(ctx, 'n = ' + p.n, W - 50, 16, '#8b949e', 12);
     },
     draw2: function(){
       const ctx = this.cv2;
@@ -140,7 +140,7 @@
       const L = Q.cholesky(K);
       const X = v => (v + 3) / 6 * 300;
       const Y = v => 100 - v / 1.5 * 80;
-      const colors = ['#1565C0', '#008B00', '#008B00', '#B07D00', '#6A1B9A'];
+      const colors = ['#58a6ff', '#3fb950', '#3fb950', '#d2991d', '#bc8cff'];
       for (let s = 0; s < 4; s++){
               const z = xs.map(() => Q.gauss(rnd));
               const f = Q.matVec(L, z); // f ~ N(0, K) since Cov(Lz) = L*I*L^T = K
@@ -149,8 +149,8 @@
         ctx.stroke();
       }
       ctx.globalAlpha = 1;
-      Q.line(ctx, 10, Y(0), 290, Y(0), '#D5D6D8', 1, [4, 4]);
-      Q.text(ctx, 'prior samples', 150, 12, '#717174', 11, 'center');
+      Q.line(ctx, 10, Y(0), 290, Y(0), '#30363d', 1, [4, 4]);
+      Q.text(ctx, 'prior samples', 150, 12, '#8b949e', 11, 'center');
     },
     draw3: function(){
       const ctx = this.cv3;
@@ -158,13 +158,13 @@
       const l = +Q.$('gp-l').value, sf = +Q.$('gp-sf').value;
       const X = v => (v + 4) / 8 * 290 + 5;
       const Y = v => 75 - v / (sf * sf) * 55;
-      ctx.strokeStyle = '#6A1B9A'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = '#bc8cff'; ctx.lineWidth = 2; ctx.beginPath();
       for (let d = -4; d <= 4; d += 0.05){
         const x = X(d), y = Y(this.kernel(0, d, l, sf));
         d === -4 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
       ctx.stroke();
-      Q.line(ctx, X(0), 10, X(0), 80, '#D5D6D8', 1, [3, 3]);
-      Q.text(ctx, 'k(0, x)', 150, 12, '#6A1B9A', 11, 'center');
+      Q.line(ctx, X(0), 10, X(0), 80, '#30363d', 1, [3, 3]);
+      Q.text(ctx, 'k(0, x)', 150, 12, '#bc8cff', 11, 'center');
     },
     out: function(){
       const p = this.posterior();

@@ -41,9 +41,9 @@
             </div>
             <canvas id="mc-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>accepted chain</span>
-                            <span><span class="swatch" style="background:#C62828"></span>rejected proposals</span>
-                            <span><span class="swatch" style="background:#008B00"></span>target contours</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>accepted chain</span>
+                            <span><span class="swatch" style="background:#ff3b3b"></span>rejected proposals</span>
+                            <span><span class="swatch" style="background:#3fb950"></span>target contours</span>
             </div>
           </div>
           <div class="card">
@@ -126,18 +126,18 @@
           const x = (px - W / 2) / 75, y = (H / 2 - py) / 75;
           const v = target(x, y) / 0.5;
           const i = (py * W + px) * 4;
-          img.data[i] = 240 - v * 25;
-          img.data[i+1] = 244 - v * 18;
-          img.data[i+2] = 248 - v * 15;
+          img.data[i] = 20 + v * 60;
+          img.data[i+1] = 30 + v * 30;
+          img.data[i+2] = 45 + v * 20;
           img.data[i+3] = 255;
         }
       }
       ctx.putImageData(img, 0, 0);
       // samples
-            (this.rej || []).forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.1, '#C62828', '', 0));
-            this.pts.forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.8, '#1565C0', '', 0));
+            (this.rej || []).forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.1, '#ff3b3b', '', 0));
+            this.pts.forEach(p => Q.circle(ctx, X(p[0]), Y(p[1]), 1.8, '#58a6ff', '', 0));
       // contours of target
-      ctx.strokeStyle = 'rgba(0,139,0,0.6)'; ctx.lineWidth = 1.2;
+      ctx.strokeStyle = 'rgba(63,185,80,0.6)'; ctx.lineWidth = 1.2;
       for (let c = 0.05; c <= 0.45; c += 0.1){
         ctx.beginPath();
         for (let a = 0; a <= 2 * Math.PI + 0.1; a += 0.05){
@@ -152,8 +152,8 @@
           a === 0 ? ctx.moveTo(xx, yy) : ctx.lineTo(xx, yy); }
         ctx.stroke();
       }
-      Q.text(ctx, 'x', W - 12, H / 2 + 12, '#717174', 11, 'right');
-      Q.text(ctx, 'y', W / 2 + 8, 12, '#717174', 11);
+      Q.text(ctx, 'x', W - 12, H / 2 + 12, '#8b949e', 11, 'right');
+      Q.text(ctx, 'y', W / 2 + 8, 12, '#8b949e', 11);
       // histogram
       const c2 = this.cv2;
       Q.clear(c2, 300, 200);
@@ -166,29 +166,29 @@
       const ctx2 = c2;
       counts.forEach((c, i) => {
         const h = c / maxC * 160;
-        ctx2.fillStyle = Q.hex(21, 101, 192, 0.8);
+        ctx2.fillStyle = Q.hex(88, 166, 255, 0.8);
         ctx2.fillRect(i * bw + 1, 185 - h, bw - 2, h);
       });
       // true marginal: 0.5 N(-1.8,1) + 0.5 N(1.8,1)
-      ctx2.strokeStyle = '#008B00'; ctx2.lineWidth = 2; ctx2.beginPath();
+      ctx2.strokeStyle = '#3fb950'; ctx2.lineWidth = 2; ctx2.beginPath();
       for (let v = min; v <= max; v += 0.05){
         const d = 0.5 * Q.normPdf(v, -1.8, 1) + 0.5 * Q.normPdf(v, 1.8, 1);
         const x = (v - min) / (max - min) * 300;
         const y = 185 - d / 0.5 * 160;
         v === min ? ctx2.moveTo(x, y) : ctx2.lineTo(x, y); }
       ctx2.stroke();
-      Q.text(c2, 'marginal x', 150, 12, '#717174', 11, 'center');
+      Q.text(c2, 'marginal x', 150, 12, '#8b949e', 11, 'center');
       // trace
       const c3 = this.cv3;
       Q.clear(c3, 300, 110);
       const ctx3 = c3;
-      ctx3.strokeStyle = '#B07D00'; ctx3.lineWidth = 1.2; ctx3.beginPath();
+      ctx3.strokeStyle = '#d2991d'; ctx3.lineWidth = 1.2; ctx3.beginPath();
       xs.forEach((v, i) => {
         const x = i / (xs.length - 1) * 290 + 5;
         const y = 100 - (v + 4) / 8 * 90;
         i === 0 ? ctx3.moveTo(x, y) : ctx3.lineTo(x, y); });
       ctx3.stroke();
-      Q.text(c3, 'trace x', 150, 8, '#717174', 10, 'center');
+      Q.text(c3, 'trace x', 150, 8, '#8b949e', 10, 'center');
     },
     out: function(){
       const algo = Q.$('mc-algo').value;

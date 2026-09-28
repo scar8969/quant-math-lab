@@ -23,8 +23,8 @@
             </div>
             <canvas id="gr-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>linear: x₀ + r·t</span>
-              <span><span class="swatch" style="background:#008B00"></span>exponential: x₀·(1+r)ᵗ</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>linear: x₀ + r·t</span>
+              <span><span class="swatch" style="background:#3fb950"></span>exponential: x₀·(1+r)ᵗ</span>
             </div>
             <div class="readout" id="gr-out" style="margin-top:10px"></div>
           </div>
@@ -88,19 +88,19 @@
       const X = t => 15 + t / steps * (W - 30);
       const Y = v => H - 24 - v / maxV * (H - 50);
       // linear
-      ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2; ctx.beginPath();
       for (let t = 0; t <= this.t; t++){ const x = X(t), y = Y(x0 + rate * t); t === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
       ctx.stroke();
       // exp
-      ctx.strokeStyle = '#008B00'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 2; ctx.beginPath();
       for (let t = 0; t <= this.t; t++){ const x = X(t), y = Y(x0 * Math.pow(1 + rate, t)); t === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
       ctx.stroke();
       // dots
       if (this.t > 0){
-        Q.circle(ctx, X(this.t), Y(x0 + rate * this.t), 4, '#1565C0', '#fff');
-        Q.circle(ctx, X(this.t), Y(x0 * Math.pow(1 + rate, this.t)), 4, '#008B00', '#fff');
+        Q.circle(ctx, X(this.t), Y(x0 + rate * this.t), 4, '#58a6ff', '#fff');
+        Q.circle(ctx, X(this.t), Y(x0 * Math.pow(1 + rate, this.t)), 4, '#3fb950', '#fff');
       }
-      Q.text(ctx, 't=' + this.t, W - 40, 16, '#1F2023', 12);
+      Q.text(ctx, 't=' + this.t, W - 40, 16, '#e6edf3', 12);
     },
     out: function(){
       const rate = +Q.$('gr-rate').value / 100, steps = +Q.$('gr-steps').value;
@@ -115,19 +115,19 @@
       const X = t => 15 + t / yrs * (W - 30);
       const Y = v => H - 24 - v / maxV * (H - 50);
       // discrete
-      ctx.strokeStyle = '#008B00'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 2; ctx.beginPath();
       for (let t = 0; t <= yrs; t += 1 / n){
         const x = X(t), y = Y(P * Math.pow(1 + r / n, n * t));
         t === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
       ctx.stroke();
       // continuous
-      ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 1.6; ctx.setLineDash([6, 4]); ctx.beginPath();
+      ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 1.6; ctx.setLineDash([6, 4]); ctx.beginPath();
       for (let t = 0; t <= yrs; t += 0.05){
         const x = X(t), y = Y(P * Math.exp(r * t));
         t === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
       ctx.stroke(); ctx.setLineDash([]);
-      Q.text(ctx, 'A(t) = P(1+r/n)^(nt)', W / 2, 14, '#00A800', 12, 'center');
-      Q.text(ctx, 'A(t) = Pe^(rt)', W / 2, 30, '#1565C0', 12, 'center');
+      Q.text(ctx, 'A(t) = P(1+r/n)^(nt)', W / 2, 14, '#56d364', 12, 'center');
+      Q.text(ctx, 'A(t) = Pe^(rt)', W / 2, 30, '#58a6ff', 12, 'center');
     },
     out2: function(){
       const P = +Q.$('gr-princ').value, r = +Q.$('gr-apr').value / 100, yrs = +Q.$('gr-years').value, n = +Q.$('gr-n').value;
@@ -161,10 +161,10 @@
         ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
         arr.forEach((v, i) => { const x = X(i), y = Y(v); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
         ctx.stroke(); };
-      plot(Ss, '#1565C0'); plot(Is, '#008B00'); plot(Rs, '#6A1B9A');
-            Q.text(ctx, 'S', W - 20, Y(Ss[Ss.length-1]), '#1565C0', 12, 'right');
-            Q.text(ctx, 'I', W - 20, Y(Math.max(...Is)), '#00A800', 12, 'right');
-            Q.text(ctx, 'R', W - 20, Y(Rs[Rs.length-1]), '#6A1B9A', 12, 'right');
+      plot(Ss, '#58a6ff'); plot(Is, '#3fb950'); plot(Rs, '#bc8cff');
+            Q.text(ctx, 'S', W - 20, Y(Ss[Ss.length-1]), '#58a6ff', 12, 'right');
+            Q.text(ctx, 'I', W - 20, Y(Math.max(...Is)), '#56d364', 12, 'right');
+            Q.text(ctx, 'R', W - 20, Y(Rs[Rs.length-1]), '#bc8cff', 12, 'right');
       const peak = Math.max(...Is), peakDay = Is.indexOf(peak) * dt;
       const herd = 1 - 1 / R0;
       Q.$('gr-out3').innerHTML =

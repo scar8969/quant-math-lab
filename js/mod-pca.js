@@ -24,8 +24,8 @@
             </div>
             <canvas id="pca-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#1565C0"></span>PC1 (most variance)</span>
-              <span><span class="swatch" style="background:#008B00"></span>PC2</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>PC1 (most variance)</span>
+              <span><span class="swatch" style="background:#3fb950"></span>PC2</span>
             </div>
           </div>
           <div class="card">
@@ -111,22 +111,22 @@
       const ctx = this.cv;
       Q.clear(ctx, W, H);
       // grid
-      ctx.strokeStyle = 'rgba(0,0,0,0.05)'; ctx.lineWidth = 1;
-      for (let i = 0; i < W; i += 60){ Q.line(ctx, i, 0, i, H, 'rgba(0,0,0,0.05)', 1); }
-      for (let j = 0; j < H; j += 60){ Q.line(ctx, 0, j, W, j, 'rgba(0,0,0,0.05)', 1); }
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+      for (let i = 0; i < W; i += 60){ Q.line(ctx, i, 0, i, H, 'rgba(255,255,255,0.06)', 1); }
+      for (let j = 0; j < H; j += 60){ Q.line(ctx, 0, j, W, j, 'rgba(255,255,255,0.06)', 1); }
       const p = this.pca();
       // points
-      this.pts.forEach(pt => Q.circle(ctx, pt[0], pt[1], 3.2, '#1565C0', 'rgba(21,101,192,0.4)', 1));
+      this.pts.forEach(pt => Q.circle(ctx, pt[0], pt[1], 3.2, '#58a6ff', 'rgba(88,166,255,0.4)', 1));
       // PC axes through mean
       const len = 150;
       const ax = (v, col) => {
         ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.beginPath();
         ctx.moveTo(p.mx - v[0] * len, p.my - v[1] * len);
         ctx.lineTo(p.mx + v[0] * len, p.my + v[1] * len); ctx.stroke(); };
-      ax(p.pc2, '#008B00'); ax(p.pc1, '#1565C0');
+      ax(p.pc2, '#3fb950'); ax(p.pc1, '#58a6ff');
       Q.circle(ctx, p.mx, p.my, 4, '#fff', '#fff', 2);
-      Q.text(ctx, 'PC1 λ=' + Q.fmt(p.l1), p.mx + p.pc1[0] * len + 6, p.my + p.pc1[1] * len + 4, '#1565C0', 12, 'left', 'bold');
-      Q.text(ctx, 'PC2 λ=' + Q.fmt(p.l2), p.mx + p.pc2[0] * len + 6, p.my + p.pc2[1] * len + 4, '#00A800', 12, 'left', 'bold');
+      Q.text(ctx, 'PC1 λ=' + Q.fmt(p.l1), p.mx + p.pc1[0] * len + 6, p.my + p.pc1[1] * len + 4, '#58a6ff', 12, 'left', 'bold');
+      Q.text(ctx, 'PC2 λ=' + Q.fmt(p.l2), p.mx + p.pc2[0] * len + 6, p.my + p.pc2[1] * len + 4, '#56d364', 12, 'left', 'bold');
       // variance bars
       const c2 = this.cv2;
       Q.clear(c2, 300, 200);
@@ -137,12 +137,12 @@
       [0, 1].forEach(i => {
         const x = 40 + i * 140;
         const h = frac[i] * 140;
-        ctx2.fillStyle = i === 0 ? '#1565C0' : '#008B00';
+        ctx2.fillStyle = i === 0 ? '#58a6ff' : '#3fb950';
         ctx2.fillRect(x, 170 - h, bw, h);
-        Q.text(ctx2, 'PC' + (i + 1), x + bw / 2, 185, '#717174', 11, 'center');
-        Q.text(ctx2, (frac[i] * 100).toFixed(1) + '%', x + bw / 2, 170 - h - 8, '#1F2023', 12, 'center');
+        Q.text(ctx2, 'PC' + (i + 1), x + bw / 2, 185, '#8b949e', 11, 'center');
+        Q.text(ctx2, (frac[i] * 100).toFixed(1) + '%', x + bw / 2, 170 - h - 8, '#e6edf3', 12, 'center');
       });
-      Q.text(c2, 'variance explained', 150, 14, '#717174', 11, 'center');
+      Q.text(c2, 'variance explained', 150, 14, '#8b949e', 11, 'center');
       // projection
       const c3 = this.cv3;
       Q.clear(c3, 300, 120);
@@ -150,9 +150,9 @@
       const mxp = Math.max(...proj), mnp = Math.min(...proj);
       proj.forEach(v => {
         const x = 15 + (v - mnp) / (mxp - mnp || 1) * 270;
-        Q.circle(c3, x, 60, 3, '#1565C0', 'rgba(21,101,192,0.4)', 1);
+        Q.circle(c3, x, 60, 3, '#58a6ff', 'rgba(88,166,255,0.4)', 1);
       });
-      Q.text(c3, 'PC1 scores (1-D view)', 150, 15, '#717174', 11, 'center');
+      Q.text(c3, 'PC1 scores (1-D view)', 150, 15, '#8b949e', 11, 'center');
     },
     out: function(){
       const p = this.pca();

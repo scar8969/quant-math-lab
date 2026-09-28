@@ -9,13 +9,13 @@
     for (let i = 0; i < counts.length; i++){
       const h = (counts[i] / maxC) * (H - 46);
       const grad = ctx.createLinearGradient(0, H - 24 - h, 0, H - 24);
-      grad.addColorStop(0, '#008B00'); grad.addColorStop(1, '#005500');
+      grad.addColorStop(0, '#3fb950'); grad.addColorStop(1, '#1a7a1a');
       ctx.fillStyle = grad;
       ctx.fillRect(i * bw + 1, H - 24 - h, bw - 2, h);
     }
-    Q.text(ctx, '0', 4, H - 12, '#717174', 10);
-    Q.text(ctx, String(counts.length - 1), W - 22, H - 12, '#717174', 10);
-    Q.text(ctx, 'outcome', W / 2, H - 8, '#717174', 10, 'center');
+    Q.text(ctx, '0', 4, H - 12, '#8b949e', 10);
+    Q.text(ctx, String(counts.length - 1), W - 22, H - 12, '#8b949e', 10);
+    Q.text(ctx, 'outcome', W / 2, H - 8, '#8b949e', 10, 'center');
   }
 
   const mod = {
@@ -38,8 +38,8 @@
             </div>
             <canvas id="prob-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#008B00"></span>empirical frequency</span>
-              <span><span class="swatch" style="background:#1565C0"></span>theoretical 1/sides</span>
+              <span><span class="swatch" style="background:#3fb950"></span>empirical frequency</span>
+              <span><span class="swatch" style="background:#58a6ff"></span>theoretical 1/sides</span>
             </div>
             <div class="readout" id="prob-out" style="margin-top:10px"></div>
           </div>
@@ -98,18 +98,18 @@
       for (let i = 0; i < s; i++){
         const h = (this.counts[i] / maxC) * (H - 46);
         const grad = ctx.createLinearGradient(0, H - 24 - h, 0, H - 24);
-        grad.addColorStop(0, '#008B00'); grad.addColorStop(1, '#005500');
+        grad.addColorStop(0, '#3fb950'); grad.addColorStop(1, '#1a7a1a');
         ctx.fillStyle = grad;
         ctx.fillRect(i * bw + 1, H - 24 - h, bw - 2, h);
-        Q.text(ctx, String(i + 1), i * bw + bw / 2, H - 12, '#717174', 10, 'center');
+        Q.text(ctx, String(i + 1), i * bw + bw / 2, H - 12, '#8b949e', 10, 'center');
         if (this.n > 0){
           const freq = this.counts[i] / this.n;
           const theo = 1 / s;
           const ty = H - 24 - freq * (H - 46) / (1 / s * 1.2);
-          Q.line(ctx, i * bw + 2, ty, (i + 1) * bw - 2, ty, '#1565C0', 1.5);
+          Q.line(ctx, i * bw + 2, ty, (i + 1) * bw - 2, ty, '#58a6ff', 1.5);
         }
       }
-      Q.text(ctx, 'outcome', W / 2, H - 8, '#717174', 10, 'center');
+      Q.text(ctx, 'outcome', W / 2, H - 8, '#8b949e', 10, 'center');
     },
     out: function(){
       const s = this.sides;
@@ -132,22 +132,22 @@
       // shade
       const xc = Math.min(Math.max(x0, xmin), xmax);
       const px = X(xc);
-      ctx.fillStyle = 'rgba(0,139,0,0.18)';
+      ctx.fillStyle = 'rgba(63,185,80,0.18)';
       ctx.beginPath(); ctx.moveTo(15, H - 24);
       for (let v = xmin; v <= xc; v += (xmax - xmin) / 200) ctx.lineTo(X(v), Y(v));
       ctx.lineTo(px, H - 24); ctx.closePath(); ctx.fill();
       // curve
-      ctx.strokeStyle = '#1565C0'; ctx.lineWidth = 2.2; ctx.beginPath();
+      ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 2.2; ctx.beginPath();
       for (let v = xmin; v <= xmax; v += (xmax - xmin) / 300){
         const x = X(v), y = Y(v);
         v === xmin ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
       ctx.stroke();
       // mu line
-      Q.line(ctx, X(mu), 10, X(mu), H - 24, '#717174', 1, [4, 4]);
-      Q.text(ctx, 'μ=' + Q.fmt(mu), X(mu) + 5, 16, '#717174', 11);
+      Q.line(ctx, X(mu), 10, X(mu), H - 24, '#8b949e', 1, [4, 4]);
+      Q.text(ctx, 'μ=' + Q.fmt(mu), X(mu) + 5, 16, '#8b949e', 11);
       // x line
-      Q.line(ctx, px, 10, px, H - 24, '#008B00', 1.5, [3, 3]);
-      Q.text(ctx, 'x=' + Q.fmt(x0), px + 5, 30, '#00A800', 11);
+      Q.line(ctx, px, 10, px, H - 24, '#3fb950', 1.5, [3, 3]);
+      Q.text(ctx, 'x=' + Q.fmt(x0), px + 5, 30, '#56d364', 11);
       const p = Q.normCdf(x0, mu, sigma);
       Q.$('prob-out2').innerHTML =
         `P(X ≤ ${Q.fmt(x0)}) = Φ(${Q.fmt((x0 - mu) / sigma)}) = <b class="r">${(p * 100).toFixed(2)}%</b><br>` +
@@ -172,12 +172,12 @@
       const bw = W / bins;
       for (let i = 0; i < bins; i++){
         const h = counts[i] / maxC * (H - 46);
-        ctx.fillStyle = Q.hex(21, 101, 192, 0.85);
+        ctx.fillStyle = Q.hex(88, 166, 255, 0.85);
         ctx.fillRect(i * bw + 1, H - 24 - h, bw - 2, h);
       }
       // normal overlay
       const mu = k * 3.5, sigma = Math.sqrt(k * 35 / 12);
-      ctx.strokeStyle = '#008B00'; ctx.lineWidth = 2; ctx.beginPath();
+      ctx.strokeStyle = '#3fb950'; ctx.lineWidth = 2; ctx.beginPath();
       for (let v = min; v <= max; v += (max - min) / 200){
         const x = (v - min) / (max - min + 1) * W;
         const y = H - 24 - Q.normPdf(v, mu, sigma) / Q.normPdf(mu, mu, sigma) * (H - 46);

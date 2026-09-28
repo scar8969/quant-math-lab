@@ -22,9 +22,9 @@
             </div>
             <canvas id="bayes-cv" width="${W}" height="${H}"></canvas>
             <div class="legend">
-              <span><span class="swatch" style="background:#008B00"></span>A</span>
-                            <span><span class="swatch" style="background:#1565C0"></span>B</span>
-                            <span><span class="swatch" style="background:#6A1B9A"></span>A∩B</span>
+              <span><span class="swatch" style="background:#3fb950"></span>A</span>
+                            <span><span class="swatch" style="background:#58a6ff"></span>B</span>
+                            <span><span class="swatch" style="background:#bc8cff"></span>A∩B</span>
             </div>
           </div>
           <div class="card">
@@ -69,27 +69,27 @@
       const rA = 95, rB = 95;
       // A circle (red)
       ctx.globalAlpha = 0.55;
-      ctx.fillStyle = '#008B00'; ctx.beginPath(); ctx.arc(cx - 40, cy, rA, 0, 2 * Math.PI); ctx.fill();
-      ctx.fillStyle = '#1565C0'; ctx.beginPath(); ctx.arc(cx + 40, cy, rB, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = '#3fb950'; ctx.beginPath(); ctx.arc(cx - 40, cy, rA, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(cx + 40, cy, rB, 0, 2 * Math.PI); ctx.fill();
       ctx.globalAlpha = 1;
       ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.arc(cx - 40, cy, rA, 0, 2 * Math.PI); ctx.stroke();
       ctx.beginPath(); ctx.arc(cx + 40, cy, rB, 0, 2 * Math.PI); ctx.stroke();
-      Q.text(ctx, 'A', cx - 100, cy - 70, '#00A800', 16, 'center', 'bold');
-      Q.text(ctx, 'B', cx + 100, cy - 70, '#1565C0', 16, 'center', 'bold');
-      Q.text(ctx, 'A∩B', cx, cy - 60, '#6A1B9A', 12, 'center');
-      Q.text(ctx, 'A only ' + (j.pAonly * 100).toFixed(1) + '%', cx - 100, cy + 60, '#00A800', 11, 'center');
-      Q.text(ctx, 'B only ' + (j.pBonly * 100).toFixed(1) + '%', cx + 100, cy + 60, '#1565C0', 11, 'center');
-      Q.text(ctx, 'neither ' + (j.pNone * 100).toFixed(1) + '%', cx, cy + 105, '#717174', 11, 'center');
+      Q.text(ctx, 'A', cx - 100, cy - 70, '#56d364', 16, 'center', 'bold');
+      Q.text(ctx, 'B', cx + 100, cy - 70, '#58a6ff', 16, 'center', 'bold');
+      Q.text(ctx, 'A∩B', cx, cy - 60, '#bc8cff', 12, 'center');
+      Q.text(ctx, 'A only ' + (j.pAonly * 100).toFixed(1) + '%', cx - 100, cy + 60, '#56d364', 11, 'center');
+      Q.text(ctx, 'B only ' + (j.pBonly * 100).toFixed(1) + '%', cx + 100, cy + 60, '#58a6ff', 11, 'center');
+      Q.text(ctx, 'neither ' + (j.pNone * 100).toFixed(1) + '%', cx, cy + 105, '#8b949e', 11, 'center');
       // bar chart of conditionals
       const bx = 20, by = H - 60;
-      const bars = [['P(B|A)', j.pBgA, '#008B00'], ['P(A|B)', j.pAgB, '#1565C0']];
+      const bars = [['P(B|A)', j.pBgA, '#3fb950'], ['P(A|B)', j.pAgB, '#58a6ff']];
       bars.forEach((b, i) => {
         const x = bx + i * 160;
         Q.text(ctx, b[0], x, by + 40, b[2], 12);
         ctx.fillStyle = b[2];
         ctx.fillRect(x, by - b[1] * 40, 60, b[1] * 40);
-        Q.text(ctx, (b[1] * 100).toFixed(1) + '%', x + 30, by - b[1] * 40 - 10, '#1F2023', 11, 'center');
+        Q.text(ctx, (b[1] * 100).toFixed(1) + '%', x + 30, by - b[1] * 40 - 10, '#e6edf3', 11, 'center');
       });
     },
     out: function(){
@@ -105,14 +105,14 @@
       Q.clear(ctx, 300, 180);
       const cx = 150, cy = 90, r = 62;
       ctx.globalAlpha = 0.5;
-      ctx.fillStyle = '#008B00'; ctx.beginPath(); ctx.arc(cx - 22, cy, r, 0, 2 * Math.PI); ctx.fill();
-      ctx.fillStyle = '#1565C0'; ctx.beginPath(); ctx.arc(cx + 22, cy, r, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = '#3fb950'; ctx.beginPath(); ctx.arc(cx - 22, cy, r, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(cx + 22, cy, r, 0, 2 * Math.PI); ctx.fill();
       ctx.globalAlpha = 1;
       ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.2;
       ctx.beginPath(); ctx.arc(cx - 22, cy, r, 0, 2 * Math.PI); ctx.stroke();
       ctx.beginPath(); ctx.arc(cx + 22, cy, r, 0, 2 * Math.PI); ctx.stroke();
-      Q.text(ctx, 'A', cx - 55, cy - 40, '#00A800', 12, 'center');
-      Q.text(ctx, 'B', cx + 55, cy - 40, '#1565C0', 12, 'center');
+      Q.text(ctx, 'A', cx - 55, cy - 40, '#56d364', 12, 'center');
+      Q.text(ctx, 'B', cx + 55, cy - 40, '#58a6ff', 12, 'center');
     },
     out2: function(){
       const prev = +Q.$('bayes-prev').value / 100;
